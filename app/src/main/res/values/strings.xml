@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">SensorsGames</string>
+
+    <!-- Games -->
+    <string name="ball">Ball in maze</string>
+    <string name="treasure">Find a treasure</string>
+    <string name="marmot">Hit marmot</string>
+
+    <!-- Sensors -->
+    <string name="accelerometer">Accelerometer</string>
+    <string name="magnetometer">Geomagnetic field</string>
+    <string name="orientation">Orientation</string>
+    <string name="gps">GPS</string>
+    <string name="linear_acc">Linear acceleration</string>
+
+    <!-- Game status -->
+    <string name="not_played">Not played</string>
+    <string name="in_progress">In progress</string>
+    <string name="done">Done</string>
+
+    <!-- MainActivity -->
+    <string name="not_available_intro">Some of games can\'t be played because of unavailability of
+        following sensors: </string>
+    <string name="game_status_intro">Game status: </string>
+    <string name="highest_score_intro">Highest score: </string>
+    <string name="sensors">Sensors</string>
+
+    <!-- Exiting dialog -->
+    <string name="game_exit_title">Do you really want to exit game?</string>
+    <string name="game_exit_message">Game progress won\'t be saved</string>
+
 </resources>
