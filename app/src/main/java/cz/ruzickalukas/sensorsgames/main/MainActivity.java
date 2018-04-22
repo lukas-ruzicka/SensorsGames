@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent;
-                switch ((int)id) {
+                switch (view.getId()) {
                     case R.string.ball:
                         intent = new Intent(MainActivity.this,
                                 GameBallActivity.class);

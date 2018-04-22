@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".main.MainActivity">
 
     <ListView
         android:id="@+id/gamesList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"/>
+        android:divider="@color/listview_divider"
+        android:dividerHeight="1dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginBottom="8dp"
+        android:background="@color/listview_divider"/>
 
     <TextView
         android:id="@+id/notAvailable"
@@ -23,4 +31,4 @@
         android:layout_marginEnd="16dp"
         android:gravity="center"/>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>

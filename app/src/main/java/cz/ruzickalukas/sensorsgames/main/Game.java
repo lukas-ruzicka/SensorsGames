@@ -24,6 +24,7 @@ class Game {
     Game(Context context, int nameRes, int... sensorsRes) {
         this.gameId = nameRes;
         this.name = context.getResources().getString(nameRes);
+        sensorsNames = "";
         for (int sensorRes : sensorsRes) {
             this.sensorsResList.add(sensorRes);
             this.sensorsNames += context.getResources().getString(sensorRes) + ", ";

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SensorsGames</string>
+    <string name="app_name">Sensors Games</string>
 
     <!-- Games -->
     <string name="ball">Ball in maze</string>
@@ -20,13 +20,32 @@
 
     <!-- MainActivity -->
     <string name="not_available_intro">Some of games can\'t be played because of unavailability of
-        following sensors: </string>
-    <string name="game_status_intro">Game status: </string>
-    <string name="highest_score_intro">Highest score: </string>
+        following sensors:\ </string>
+    <string name="game_status_intro">Game status:\ </string>
+    <string name="highest_score_intro">Highest score:\ </string>
     <string name="sensors">Sensors</string>
 
     <!-- Exiting dialog -->
     <string name="game_exit_title">Do you really want to exit game?</string>
     <string name="game_exit_message">Game progress won\'t be saved</string>
+
+    <!-- Treasure game -->
+    <string name="no_permission_gps">This game cannot be played without GPS..</string>
+    <string name="instructions">Go %d meters on %s</string>
+    <string name="target_achieved">Good job! Keep following instructions</string>
+    <string name="final_target_achieved">You\'ve made it, the chest is yours!</string>
+    <string name="chest_instructions">Now you need to open the chest. Click on screw and start
+        rotating with your device in the screws direction</string>
+
+    <!-- Cardinal directions -->
+    <string name="north">north</string>
+    <string name="north_east">northeast</string>
+    <string name="east">east</string>
+    <string name="south_east">southeast</string>
+    <string name="south">south</string>
+    <string name="south_west">southwest</string>
+    <string name="west">west</string>
+    <string name="north_west">northwest</string>
+    <string name="no_direction">no direction..</string>
 
 </resources>

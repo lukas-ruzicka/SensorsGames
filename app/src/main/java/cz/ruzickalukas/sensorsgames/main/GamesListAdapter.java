@@ -65,7 +65,7 @@ class GamesListAdapter extends BaseAdapter{
             status.setText(scoreText);
         } else {
             String statusText = context.getResources().getString(R.string.game_status_intro) +
-                    game.getStatus();
+                    context.getResources().getString(game.getStatus());
             status.setText(statusText);
         }
 

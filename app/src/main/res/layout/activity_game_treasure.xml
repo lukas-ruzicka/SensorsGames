@@ -3,11 +3,19 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:gravity="center">
 
+    <cz.ruzickalukas.sensorsgames.treasure.CompassView
+        android:id="@+id/compass"
+        android:layout_width="@dimen/compass_size"
+        android:layout_height="@dimen/compass_size"
+        android:padding="8dp"/>
+
     <TextView
+        android:id="@+id/instructions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="You'll find a Find treasure game here"/>
+        android:padding="8dp"/>
 
 </LinearLayout>
