@@ -38,8 +38,6 @@ class CompassView extends View implements SensorEventListener {
                 R.drawable.compass), compassSize, compassSize, false);
     }
 
-
-
     void init(Context context) {
         mSensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {

@@ -10,6 +10,8 @@ import cz.ruzickalukas.sensorsgames.R;
 
 public class GameMarmotActivity extends AppCompatActivity {
 
+    private boolean gameRunning = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
