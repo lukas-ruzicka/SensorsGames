@@ -48,4 +48,22 @@
     <string name="north_west">northwest</string>
     <string name="no_direction">no direction..</string>
 
+    <!-- Treasure game -->
+    <string name="calibration_title">We need to calibrate your device</string>
+    <string name="calibration_message">Place your phone on flat surface. When you\'ve done that,
+        click on the \"Calibrate\" button</string>
+    <string name="calibration_button">Calibrate</string>
+    
+    <!-- Marmot game -->
+    <string name="time_format_seconds">Remaining time: %d s</string>
+    <string name="time_format_tenths">Remaining time: %.1f s</string>
+    <string name="score">Score: %d</string>
+    <string name="game_start">Game started</string>
+
+    <!-- Game over dialog -->
+    <string name="game_over_title">Game over</string>
+    <string name="game_over_score">Your score is: %d out of %d</string>
+    <string name="play_again_button">Play again</string>
+    <string name="go_back_button">Go back</string>
+
 </resources>

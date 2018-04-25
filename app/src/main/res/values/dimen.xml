@@ -3,4 +3,9 @@
 
     <dimen name="compass_size">300dp</dimen>
 
+    <!-- Marmot game -->
+    <dimen name="score_time_height">24dp</dimen>
+    <dimen name="marmot_height">80dp</dimen>
+    <dimen name="marmot_width">40dp</dimen>
+
 </resources>

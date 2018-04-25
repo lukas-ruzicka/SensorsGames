@@ -2,23 +2,107 @@ package cz.ruzickalukas.sensorsgames.marmot;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import cz.ruzickalukas.sensorsgames.R;
 
-public class GameMarmotActivity extends AppCompatActivity {
+public class GameMarmotActivity extends AppCompatActivity implements SensorEventListener {
 
+    private SensorManager mSensorManager;
+    private Sensor linearAcc;
+    private boolean calibrating = true;
+    private float xOffset, yOffset, zOffset;
+
+    private MarmotManager marmotManager;
     private boolean gameRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_game_marmot);
 
+        mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
+        if (mSensorManager != null) {
+            linearAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+            mSensorManager.registerListener(this, linearAcc, SensorManager.SENSOR_DELAY_NORMAL);
+        }
 
+        FrameLayout gameLayout = findViewById(R.id.gameMarmotLayout);
+        TextView score = findViewById(R.id.score);
+        TextView time = findViewById(R.id.time);
+        marmotManager = new MarmotManager(this, gameLayout, score, time);
+
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.calibration_title))
+                .setMessage(getResources().getString(R.string.calibration_message))
+                .setCancelable(false)
+                .setPositiveButton(getResources().getString(R.string.calibration_button),
+                        new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        calibrating = false;
+                        marmotManager.startGame();
+                    }
+                })
+                .show();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mSensorManager.registerListener(this, linearAcc, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        mSensorManager.unregisterListener(this);
+    }
+
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
+            if (calibrating) {
+                xOffset = event.values[0];
+                yOffset = event.values[1];
+                zOffset = event.values[2];
+            } else {
+                if (detectRun(event.values[0] - xOffset, event.values[1] - yOffset,
+                        event.values[2] - zOffset)) {
+                    if (!gameRunning) {
+                        gameRunning = true;
+                        marmotManager.startGame();
+                    }
+                } else if (gameRunning) {
+                    gameRunning = false;
+                    marmotManager.endGame();
+                }
+            }
+        }
+    }
+
+    private boolean detectRun(float x, float y, float z) {
+        // TODO: Run detection
+        return false;
+    }
+
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     @Override
     public void onBackPressed() {
