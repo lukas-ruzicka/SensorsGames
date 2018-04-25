@@ -10,6 +10,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.hardware.SensorEventListener;
@@ -22,6 +23,7 @@ public class BallView extends View implements SensorEventListener {
     private Sensor accelerometer;
 
     private Bitmap bmp;
+    private int ballSize;
     private float xPos, yPos;
     private float xSpeed, ySpeed;
     private float xMax, yMax;
@@ -29,10 +31,11 @@ public class BallView extends View implements SensorEventListener {
 
     public BallView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        ballSize = (int)context.getResources().getDimension(R.dimen.ball_size);
         bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.compass), 50, 50, false);
-        xPos = 5;
-        yPos = 5;
+                R.drawable.ball), ballSize, ballSize, false);
+        xPos = 10;
+        yPos = 10;
     }
 
     void init(Activity activity) {
@@ -41,8 +44,9 @@ public class BallView extends View implements SensorEventListener {
             accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
         Display display = activity.getWindowManager().getDefaultDisplay();
-        xMax = display.getWidth() - 50;
-        yMax = display.getHeight() - 50;
+        xMax = display.getWidth() - ballSize;
+        yMax = display.getHeight() - ballSize;
+        invalidate();
     }
 
     void register() {
@@ -66,21 +70,30 @@ public class BallView extends View implements SensorEventListener {
         ySpeed += y * FRAME_TIME;
 
         xPos -= (xSpeed/2) * FRAME_TIME;
-        yPos -= (ySpeed/2) * FRAME_TIME;
+        yPos += (ySpeed/2) * FRAME_TIME;
 
+        // Barrier left
         if (xPos < 0) {
+            xSpeed = 0;
             xPos = 0;
-        } else if (xPos > xMax) {
+        }
+        // Barrier right
+        else if (xPos > xMax) {
+            xSpeed = 0;
             xPos = xMax;
         }
-
+        // Barrier up
         if (yPos < 0) {
+            ySpeed = 0;
             yPos = 0;
-        } else if (yPos > yMax) {
+        }
+        // Barrier down
+        else if (yPos > yMax) {
+            ySpeed = 0;
             yPos = yMax;
         }
 
-        this.invalidate();
+        invalidate();
     }
 
     @Override

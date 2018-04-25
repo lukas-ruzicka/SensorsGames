@@ -30,10 +30,8 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
         setContentView(R.layout.activity_game_marmot);
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
@@ -75,6 +73,11 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
             if (calibrating) {
@@ -106,8 +109,8 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
+        marmotManager.pauseGame();
+        onPause();
         final Activity activity = this;
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.game_exit_title))
@@ -115,10 +118,18 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        marmotManager.removeMessages(MarmotManager.UPDATE_TIME);
+                        marmotManager.removeMessages(MarmotManager.ADD_NEW_MARMOT);
                         activity.finish();
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                        marmotManager.resumeGame();
+                    }
+                })
                 .show();
     }
 }

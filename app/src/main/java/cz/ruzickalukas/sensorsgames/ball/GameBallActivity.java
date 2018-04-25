@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.WindowManager;
 
 import cz.ruzickalukas.sensorsgames.R;
 
@@ -17,8 +18,9 @@ public class GameBallActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game_ball);
-
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         ball = findViewById(R.id.ball);
@@ -44,8 +46,7 @@ public class GameBallActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
+        ball.unregister();
         final Activity activity = this;
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.game_exit_title))
@@ -56,7 +57,12 @@ public class GameBallActivity extends AppCompatActivity {
                         activity.finish();
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ball.register();
+                    }
+                })
                 .show();
     }
 }

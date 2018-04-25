@@ -30,8 +30,10 @@ class MarmotManager extends Handler {
     private int marmotAppeared = 0;
     private int score = 0;
 
-    private static final int ADD_NEW_MARMOT = 101;
-    private static final int UPDATE_TIME = 102;
+    private long pausedAt;
+
+    static final int ADD_NEW_MARMOT = 101;
+    static final int UPDATE_TIME = 102;
     static final int MARMOT_HIT = 103;
 
     MarmotManager(Activity activity, FrameLayout gameLayout, TextView scoreView, TextView timeView) {
@@ -88,6 +90,18 @@ class MarmotManager extends Handler {
                             }
                         })
                 .show();
+    }
+
+    void pauseGame() {
+        removeMessages(UPDATE_TIME);
+        removeMessages(ADD_NEW_MARMOT);
+        pausedAt = System.currentTimeMillis();
+    }
+
+    void resumeGame() {
+        startTime += System.currentTimeMillis() - pausedAt;
+        sendEmptyMessage(UPDATE_TIME);
+        sendEmptyMessageDelayed(ADD_NEW_MARMOT, nextAppearence);
     }
 
     @Override

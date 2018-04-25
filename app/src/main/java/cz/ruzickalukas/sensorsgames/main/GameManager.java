@@ -12,8 +12,7 @@ class GameManager {
 
     static List<Game> getGamesList(Context context) {
         List<Game> gamesList = new ArrayList<>();
-        gamesList.add(new Game(context, R.string.ball,
-                R.string.accelerometer, R.string.magnetometer));
+        gamesList.add(new Game(context, R.string.ball, R.string.accelerometer));
         gamesList.add(new Game(context, R.string.treasure,
                 R.string.gps, R.string.accelerometer, R.string.magnetometer));
         gamesList.add(new Game(context, R.string.marmot, R.string.linear_acc));
