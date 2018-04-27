@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +22,10 @@ public class GameTreasureActivity extends AppCompatActivity {
 
     private CompassView compass;
     private TextView instructions;
+    private ImageView chest;
     private Navigation navigation;
 
+    private boolean waiting = true;
     private boolean gpsPermissionGranted = false;
 
     private boolean finalTargetAchieved = false;
@@ -36,18 +39,32 @@ public class GameTreasureActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game_treasure);
 
-        // TODO: Show dialog, that user need to find open space and the game starts after that
+        new AlertDialog.Builder(this)
+                .setTitle(getResources().getString(R.string.game_instructions_title))
+                .setMessage(getResources().getString(R.string.treasure_instructions))
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                waiting = false;
+                                onResume();
+                            }
+                        })
+                .show();
 
         compass = findViewById(R.id.compass);
         compass.init(this);
 
         instructions = findViewById(R.id.instructions);
+
+        chest = findViewById(R.id.chest);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (!finalTargetAchieved) {
+        if (!finalTargetAchieved && !waiting) {
             compass.register();
             requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE);
         }
@@ -125,6 +142,40 @@ public class GameTreasureActivity extends AppCompatActivity {
         compass.setVisibility(View.GONE);
         instructions.setVisibility(View.GONE);
 
-        // TODO: Create chest and place it on the screen
+        chest.setVisibility(View.VISIBLE);
+
+        final Activity activity = this;
+        chest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                waiting = true;
+                new AlertDialog.Builder(activity)
+                        .setTitle(activity.getResources().getString(R.string.game_over_title))
+                        .setMessage(activity.getResources().getString(R.string.game_over_chest))
+                        .setCancelable(false)
+                        .setPositiveButton(activity.getResources()
+                                        .getString(R.string.play_again_button),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        waiting = false;
+                                        chest.setVisibility(View.GONE);
+                                        compass.setVisibility(View.VISIBLE);
+                                        instructions.setVisibility(View.VISIBLE);
+                                        navigation = null;
+                                        onResume();
+                                    }
+                                })
+                        .setNegativeButton(activity.getResources()
+                                        .getString(R.string.go_back_button),
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        activity.finish();
+                                    }
+                                })
+                        .show();
+            }
+        });
     }
 }

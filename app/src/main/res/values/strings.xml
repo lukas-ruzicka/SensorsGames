@@ -12,7 +12,6 @@
     <string name="orientation">Orientation</string>
     <string name="gps">GPS</string>
     <string name="step_detector">Step detector</string>
-    <string name="step_counter">Step counter</string>
 
     <!-- Game status -->
     <string name="not_played">Not played</string>
@@ -30,6 +29,7 @@
     <string name="game_exit_title">Do you really want to exit game?</string>
     <string name="game_exit_message">Game progress won\'t be saved</string>
 
+
     <!-- Treasure game -->
     <string name="no_permission_gps">This game cannot be played without GPS..</string>
     <string name="instructions_not_available">Sorry, we can\'t get your position.
@@ -38,7 +38,7 @@
     <string name="target_achieved">Good job! Keep following instructions</string>
     <string name="final_target_achieved">You\'ve made it, the chest is yours!
         Congratulations!</string>
-
+    <string name="chest">Chest</string>
     <!-- Cardinal directions -->
     <string name="north">north</string>
     <string name="north_east">northeast</string>
@@ -49,7 +49,8 @@
     <string name="west">west</string>
     <string name="north_west">northwest</string>
     <string name="no_direction">no direction..</string>
-    
+
+
     <!-- Marmot game -->
     <string name="time_format_seconds">Remaining time: %d s</string>
     <string name="time_format_tenths">Remaining time: %.1f s</string>
@@ -59,6 +60,9 @@
 
     <!-- Games instructions -->
     <string name="game_instructions_title">Game instructions</string>
+    <string name="treasure_instructions">You need to get on some open space (at least 50 metres
+        around). When you get there, click on the button bellow. \nThen the rules are simple. Just
+        follow the instructions using compass and find the treasure. Good luck!</string>
     <string name="marmot_instructions">This game shows usage of step detector and counter. You can
         play the game only if you are moving (controlled by step detector). Then the marmots will
         start to appear and you have 60 seconds to hit as many marmots as you can. You'll also get
@@ -68,6 +72,8 @@
     <!-- Game over dialog -->
     <string name="game_over_title">Game over</string>
     <string name="game_over_score">Your score is: %d</string>
+    <string name="game_over_chest">Gold, gold and lot more gold!! \nDo you want to find another
+        chest? You just need to get on open space again..</string>
     <string name="play_again_button">Play again</string>
     <string name="go_back_button">Go back</string>
 

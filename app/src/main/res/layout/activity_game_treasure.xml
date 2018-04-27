@@ -19,4 +19,12 @@
         android:layout_height="wrap_content"
         android:padding="8dp"/>
 
+    <ImageView
+        android:id="@+id/chest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="40dp"
+        android:contentDescription="@string/chest"
+        android:visibility="gone"/>
+
 </LinearLayout>
