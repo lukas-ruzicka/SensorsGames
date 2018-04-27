@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cz.ruzickalukas.sensorsgames.R;
+import cz.ruzickalukas.sensorsgames.main.GameStatus;
 
 public class GameTreasureActivity extends AppCompatActivity {
 
@@ -143,6 +144,8 @@ public class GameTreasureActivity extends AppCompatActivity {
         instructions.setVisibility(View.GONE);
 
         chest.setVisibility(View.VISIBLE);
+
+        GameStatus.updateScore(this, R.string.treasure, 0);
 
         final Activity activity = this;
         chest.setOnClickListener(new View.OnClickListener() {

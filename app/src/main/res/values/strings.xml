@@ -23,6 +23,8 @@
         following sensors:\ </string>
     <string name="game_status_intro">Game status:\ </string>
     <string name="highest_score_intro">Highest score:\ </string>
+    <string name="points">%.0f points</string>
+    <string name="seconds">%.1f s</string>
     <string name="sensors">Sensors</string>
 
     <!-- Exiting dialog -->

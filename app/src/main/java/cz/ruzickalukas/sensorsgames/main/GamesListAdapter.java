@@ -59,7 +59,7 @@ class GamesListAdapter extends BaseAdapter{
         name.setText(game.getName());
 
         TextView status = convertView.findViewById(R.id.status);
-        if (game.getStatus() == R.string.done) {
+        if (game.getStatus() == R.string.done && game.getId() != R.string.treasure) {
             String scoreText = context.getResources().getString(R.string.highest_score_intro) +
                     game.getScoreText();
             status.setText(scoreText);

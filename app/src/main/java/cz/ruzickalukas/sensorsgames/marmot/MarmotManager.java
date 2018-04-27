@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.util.Random;
 
 import cz.ruzickalukas.sensorsgames.R;
+import cz.ruzickalukas.sensorsgames.main.GameStatus;
 
 class MarmotManager extends Handler {
 
@@ -82,6 +83,8 @@ class MarmotManager extends Handler {
 
         running = false;
         waiting = true;
+
+        GameStatus.updateScore(activity, R.string.marmot, score);
 
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getResources().getString(R.string.game_over_title))

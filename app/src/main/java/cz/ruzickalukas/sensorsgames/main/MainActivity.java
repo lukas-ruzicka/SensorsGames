@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,15 +22,18 @@ import cz.ruzickalukas.sensorsgames.treasure.GameTreasureActivity;
 
 public class MainActivity extends AppCompatActivity {
 
+    private ListView gamesListView;
+    private List<Game> gamesList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ListView gamesListView = findViewById(R.id.gamesList);
+        gamesListView = findViewById(R.id.gamesList);
         TextView notAvailableView = findViewById(R.id.notAvailable);
 
-        List<Game> gamesList = GameManager.getGamesList(this);
+        gamesList = GameManager.getGamesList(this);
 
         Set<Integer> unavailableSensors = checkSensorAvailability(gamesList);
         if (unavailableSensors.size() > 0) {
@@ -66,9 +70,19 @@ public class MainActivity extends AppCompatActivity {
                     default:
                         return;
                 }
+                GameStatus.updateStatus(MainActivity.this, view.getId());
                 startActivity(intent);
             }
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        for (Game game : gamesList) {
+            game.loadStatus(this);
+        }
+        ((BaseAdapter)gamesListView.getAdapter()).notifyDataSetChanged();
     }
 
     private Set<Integer> checkSensorAvailability(List<Game> gamesList) {
