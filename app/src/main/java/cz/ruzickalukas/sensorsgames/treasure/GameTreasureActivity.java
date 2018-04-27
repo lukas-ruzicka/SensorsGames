@@ -11,6 +11,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,8 @@ public class GameTreasureActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game_treasure);
 
         // TODO: Show dialog, that user need to find open space and the game starts after that
@@ -47,8 +50,6 @@ public class GameTreasureActivity extends AppCompatActivity {
         if (!finalTargetAchieved) {
             compass.register();
             requestPermission(Manifest.permission.ACCESS_FINE_LOCATION, LOCATION_REQUEST_CODE);
-        } else {
-
         }
     }
 
@@ -60,15 +61,12 @@ public class GameTreasureActivity extends AppCompatActivity {
             if (gpsPermissionGranted) {
                 navigation.unregister();
             }
-        } else {
-
         }
     }
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-
+        onPause();
         final Activity activity = this;
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.game_exit_title))
@@ -79,7 +77,12 @@ public class GameTreasureActivity extends AppCompatActivity {
                         activity.finish();
                     }
                 })
-                .setNegativeButton(android.R.string.no, null)
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        onResume();
+                    }
+                })
                 .show();
     }
 
@@ -123,8 +126,5 @@ public class GameTreasureActivity extends AppCompatActivity {
         instructions.setVisibility(View.GONE);
 
         // TODO: Create chest and place it on the screen
-
-        Toast.makeText(this, getResources().getString(R.string.chest_instructions),
-                Toast.LENGTH_LONG).show();
     }
 }

@@ -39,6 +39,9 @@ public class Navigation implements LocationListener {
         if (currentLocation != null) {
             noDefaultLocation = false;
             initTargetLocations();
+        } else {
+            instructions.setText(currentActivity.getResources()
+                    .getString(R.string.instructions_not_available));
         }
     }
 

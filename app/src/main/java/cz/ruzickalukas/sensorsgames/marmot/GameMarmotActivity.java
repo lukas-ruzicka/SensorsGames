@@ -14,18 +14,17 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import cz.ruzickalukas.sensorsgames.R;
 
 public class GameMarmotActivity extends AppCompatActivity implements SensorEventListener {
 
     private SensorManager mSensorManager;
-    private Sensor linearAcc;
-    private boolean calibrating = true;
-    private float xOffset, yOffset, zOffset;
+    private Sensor stepDetector;
+    private Sensor stepCounter;
 
     private MarmotManager marmotManager;
-    private boolean gameRunning = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,8 +35,8 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
 
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (mSensorManager != null) {
-            linearAcc = mSensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
-            mSensorManager.registerListener(this, linearAcc, SensorManager.SENSOR_DELAY_NORMAL);
+            stepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
+            stepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
         }
 
         FrameLayout gameLayout = findViewById(R.id.gameMarmotLayout);
@@ -46,15 +45,16 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
         marmotManager = new MarmotManager(this, gameLayout, score, time);
 
         new AlertDialog.Builder(this)
-                .setTitle(getResources().getString(R.string.calibration_title))
-                .setMessage(getResources().getString(R.string.calibration_message))
+                .setTitle(getResources().getString(R.string.game_instructions_title))
+                .setMessage(getResources().getString(R.string.marmot_instructions))
                 .setCancelable(false)
-                .setPositiveButton(getResources().getString(R.string.calibration_button),
+                .setPositiveButton(android.R.string.yes,
                         new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        calibrating = false;
-                        marmotManager.startGame();
+                        marmotManager.notWaitingAnymore();
+                        Toast.makeText(GameMarmotActivity.this,
+                                "You can start moving now", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();
@@ -63,7 +63,10 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, linearAcc, SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, stepDetector,
+                SensorManager.SENSOR_DELAY_NORMAL);
+        mSensorManager.registerListener(this, stepCounter,
+                SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     @Override
@@ -73,35 +76,18 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_LINEAR_ACCELERATION) {
-            if (calibrating) {
-                xOffset = event.values[0];
-                yOffset = event.values[1];
-                zOffset = event.values[2];
-            } else {
-                if (detectRun(event.values[0] - xOffset, event.values[1] - yOffset,
-                        event.values[2] - zOffset)) {
-                    if (!gameRunning) {
-                        gameRunning = true;
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_STEP_DETECTOR:
+                if (!marmotManager.isWaiting()) {
+                    if (!marmotManager.isRunning()) {
                         marmotManager.startGame();
+                    } else {
+                        marmotManager.addStep(System.currentTimeMillis());
                     }
-                } else if (gameRunning) {
-                    gameRunning = false;
-                    marmotManager.endGame();
                 }
-            }
+                break;
         }
-    }
-
-    private boolean detectRun(float x, float y, float z) {
-        // TODO: Run detection
-        return false;
     }
 
     @Override

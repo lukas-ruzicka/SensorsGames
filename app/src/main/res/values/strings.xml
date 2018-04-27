@@ -11,7 +11,8 @@
     <string name="magnetometer">Geomagnetic field</string>
     <string name="orientation">Orientation</string>
     <string name="gps">GPS</string>
-    <string name="linear_acc">Linear acceleration</string>
+    <string name="step_detector">Step detector</string>
+    <string name="step_counter">Step counter</string>
 
     <!-- Game status -->
     <string name="not_played">Not played</string>
@@ -31,11 +32,12 @@
 
     <!-- Treasure game -->
     <string name="no_permission_gps">This game cannot be played without GPS..</string>
+    <string name="instructions_not_available">Sorry, we can\'t get your position.
+        Give us a sec..</string>
     <string name="instructions">Go %d meters on %s</string>
     <string name="target_achieved">Good job! Keep following instructions</string>
-    <string name="final_target_achieved">You\'ve made it, the chest is yours!</string>
-    <string name="chest_instructions">Now you need to open the chest. Click on screw and start
-        rotating with your device in the screws direction</string>
+    <string name="final_target_achieved">You\'ve made it, the chest is yours!
+        Congratulations!</string>
 
     <!-- Cardinal directions -->
     <string name="north">north</string>
@@ -47,12 +49,6 @@
     <string name="west">west</string>
     <string name="north_west">northwest</string>
     <string name="no_direction">no direction..</string>
-
-    <!-- Treasure game -->
-    <string name="calibration_title">We need to calibrate your device</string>
-    <string name="calibration_message">Place your phone on flat surface. When you\'ve done that,
-        click on the \"Calibrate\" button</string>
-    <string name="calibration_button">Calibrate</string>
     
     <!-- Marmot game -->
     <string name="time_format_seconds">Remaining time: %d s</string>
@@ -60,10 +56,29 @@
     <string name="score">Score: %d</string>
     <string name="game_start">Game started</string>
 
+
+    <!-- Games instructions -->
+    <string name="game_instructions_title">Game instructions</string>
+    <string name="marmot_instructions">This game shows usage of step detector and counter. You can
+        play the game only if you are moving (controlled by step detector). Then the marmots will
+        start to appear and you have 60 seconds to hit as many marmots as you can. You'll also get
+        extra point for each step you make during the game (controlled by step counter).
+        Good luck!</string>
+
     <!-- Game over dialog -->
     <string name="game_over_title">Game over</string>
-    <string name="game_over_score">Your score is: %d out of %d</string>
+    <string name="game_over_score">Your score is: %d</string>
     <string name="play_again_button">Play again</string>
     <string name="go_back_button">Go back</string>
+
+
+
+
+
+    <!-- Calibration -->
+    <string name="calibration_title">We need to calibrate your device</string>
+    <string name="calibration_message">Place your phone on flat surface. When you\'ve done that,
+        click on the \"Calibrate\" button</string>
+    <string name="calibration_button">Calibrate</string>
 
 </resources>

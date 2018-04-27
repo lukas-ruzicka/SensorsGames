@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 import android.view.Display;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -22,12 +21,14 @@ class MarmotManager extends Handler {
     private TextView timeView;
     private TextView scoreView;
 
+    private boolean running;
     private int xMax, yMax;
     private long startTime;
     private int nextAppearence;
     private int marmotExpiration;
+    private boolean waiting = true;
+    private long lastStep;
 
-    private int marmotAppeared = 0;
     private int score = 0;
 
     private long pausedAt;
@@ -36,11 +37,18 @@ class MarmotManager extends Handler {
     static final int UPDATE_TIME = 102;
     static final int MARMOT_HIT = 103;
 
-    MarmotManager(Activity activity, FrameLayout gameLayout, TextView scoreView, TextView timeView) {
+    MarmotManager(Activity activity, FrameLayout gameLayout, TextView scoreView,
+                  TextView timeView) {
         this.activity = activity;
         this.gameLayout = gameLayout;
         this.timeView = timeView;
         this.scoreView = scoreView;
+
+        timeView.setText(String.format(activity.getResources()
+                .getString(R.string.time_format_seconds),60));
+        scoreView.setText(String.format(activity.getResources()
+                .getString(R.string.score),0));
+
         Display display = activity.getWindowManager().getDefaultDisplay();
         xMax = (int)(display.getWidth() -
                 activity.getResources().getDimension(R.dimen.marmot_width));
@@ -55,31 +63,40 @@ class MarmotManager extends Handler {
                 .getString(R.string.time_format_seconds),60));
         sendEmptyMessage(UPDATE_TIME);
 
-        marmotAppeared = 0;
         score = 0;
         scoreView.setText(String.format(activity.getResources().getString(R.string.score),0));
         nextAppearence = 3000;
         marmotExpiration = 2000;
         sendEmptyMessageDelayed(ADD_NEW_MARMOT,500);
 
+        running = true;
+        waiting = false;
+
         Toast.makeText(activity, activity.getResources().getString(R.string.game_start),
                 Toast.LENGTH_SHORT).show();
     }
 
-    void endGame() {
+    private void endGame() {
         removeMessages(UPDATE_TIME);
         removeMessages(ADD_NEW_MARMOT);
+
+        running = false;
+        waiting = true;
 
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getResources().getString(R.string.game_over_title))
                 .setMessage(String.format(activity.getResources()
-                        .getString(R.string.game_over_score),score,marmotAppeared))
+                        .getString(R.string.game_over_score),score))
                 .setCancelable(false)
                 .setPositiveButton(activity.getResources().getString(R.string.play_again_button),
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                startGame();
+                                waiting = false;
+                                timeView.setText(String.format(activity.getResources()
+                                        .getString(R.string.time_format_seconds),60));
+                                scoreView.setText(String.format(activity.getResources()
+                                        .getString(R.string.score),0));
                             }
                         })
                 .setNegativeButton(activity.getResources().getString(R.string.go_back_button),
@@ -90,6 +107,13 @@ class MarmotManager extends Handler {
                             }
                         })
                 .show();
+    }
+
+    void addStep(long stepTime) {
+        score++;
+        scoreView.setText(String.format(activity.getResources().getString(R.string.score),
+                score));
+        lastStep = stepTime;
     }
 
     void pauseGame() {
@@ -120,7 +144,6 @@ class MarmotManager extends Handler {
                 sendEmptyMessageDelayed(ADD_NEW_MARMOT, nextAppearence);
 
                 updateTimings();
-                marmotAppeared++;
                 break;
             case UPDATE_TIME:
                 long currentTime = System.currentTimeMillis();
@@ -149,6 +172,7 @@ class MarmotManager extends Handler {
                 scoreView.setText(String.format(activity.getResources().getString(R.string.score),
                         score));
                 updateTimings();
+                checkTime();
                 break;
         }
     }
@@ -156,5 +180,25 @@ class MarmotManager extends Handler {
     private void updateTimings() {
         nextAppearence *= 0.977;
         marmotExpiration *= 0.989;
+    }
+
+    private void checkTime() {
+        if (System.currentTimeMillis() - lastStep > 3000) {
+            Toast.makeText(activity, "You can't stop during the game..",
+                    Toast.LENGTH_SHORT).show();
+            endGame();
+        }
+    }
+
+    boolean isRunning() {
+        return running;
+    }
+
+    boolean isWaiting() {
+        return waiting;
+    }
+
+    void notWaitingAnymore() {
+        waiting = false;
     }
 }

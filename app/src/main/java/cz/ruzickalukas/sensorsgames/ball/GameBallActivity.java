@@ -41,12 +41,13 @@ public class GameBallActivity extends AppCompatActivity {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     @Override
     public void onBackPressed() {
-        ball.unregister();
+        onPause();
         final Activity activity = this;
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.game_exit_title))
@@ -60,7 +61,7 @@ public class GameBallActivity extends AppCompatActivity {
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        ball.register();
+                        onResume();
                     }
                 })
                 .show();

@@ -15,7 +15,8 @@ class GameManager {
         gamesList.add(new Game(context, R.string.ball, R.string.accelerometer));
         gamesList.add(new Game(context, R.string.treasure,
                 R.string.gps, R.string.accelerometer, R.string.magnetometer));
-        gamesList.add(new Game(context, R.string.marmot, R.string.linear_acc));
+        gamesList.add(new Game(context, R.string.marmot,
+                R.string.step_detector, R.string.step_counter));
 
         return gamesList;
     }
@@ -26,8 +27,10 @@ class GameManager {
                 return Sensor.TYPE_ACCELEROMETER;
             case R.string.magnetometer:
                 return Sensor.TYPE_MAGNETIC_FIELD;
-            case R.string.linear_acc:
-                return Sensor.TYPE_LINEAR_ACCELERATION;
+            case R.string.step_detector:
+                return Sensor.TYPE_STEP_DETECTOR;
+            case R.string.step_counter:
+                return Sensor.TYPE_STEP_COUNTER;
             default:
                 return 0;
         }
