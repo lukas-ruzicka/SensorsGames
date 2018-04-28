@@ -154,7 +154,7 @@ public class GameTreasureActivity extends AppCompatActivity {
                 waiting = true;
                 new AlertDialog.Builder(activity)
                         .setTitle(activity.getResources().getString(R.string.game_over_title))
-                        .setMessage(activity.getResources().getString(R.string.game_over_chest))
+                        .setMessage(activity.getResources().getString(R.string.game_over_treasure))
                         .setCancelable(false)
                         .setPositiveButton(activity.getResources()
                                         .getString(R.string.play_again_button),

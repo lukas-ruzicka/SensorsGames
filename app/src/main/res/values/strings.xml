@@ -17,6 +17,7 @@
     <string name="not_played">Not played</string>
     <string name="in_progress">In progress</string>
     <string name="done">Done</string>
+    <string name="new_highscore">You set new highest score!</string>
 
     <!-- MainActivity -->
     <string name="not_available_intro">Some of games can\'t be played because of unavailability of
@@ -73,8 +74,9 @@
 
     <!-- Game over dialog -->
     <string name="game_over_title">Game over</string>
-    <string name="game_over_score">Your score is: %d</string>
-    <string name="game_over_chest">Gold, gold and lot more gold!! \nDo you want to find another
+    <string name="game_over_marmot">Your score is: %d \nIf you want to play again, just tap the
+        button bellow and start moving</string>
+    <string name="game_over_treasure">Gold, gold and lot more gold!! \nDo you want to find another
         chest? You just need to get on open space again..</string>
     <string name="play_again_button">Play again</string>
     <string name="go_back_button">Go back</string>

@@ -89,7 +89,7 @@ class MarmotManager extends Handler {
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getResources().getString(R.string.game_over_title))
                 .setMessage(String.format(activity.getResources()
-                        .getString(R.string.game_over_score),score))
+                        .getString(R.string.game_over_marmot),score))
                 .setCancelable(false)
                 .setPositiveButton(activity.getResources().getString(R.string.play_again_button),
                         new DialogInterface.OnClickListener() {
@@ -142,8 +142,7 @@ class MarmotManager extends Handler {
 
                 MarmotView marmot = new MarmotView(activity, this);
                 gameLayout.addView(marmot);
-                marmot.setPosition(xPos, yPos);
-                marmot.animateIn(marmotExpiration);
+                marmot.placeOnScreen(xPos, yPos, marmotExpiration);
                 sendEmptyMessageDelayed(ADD_NEW_MARMOT, nextAppearence);
 
                 updateTimings();

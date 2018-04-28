@@ -2,6 +2,7 @@ package cz.ruzickalukas.sensorsgames.main;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
 import cz.ruzickalukas.sensorsgames.R;
 
@@ -19,7 +20,11 @@ public class GameStatus {
         if (pref.getInt(Game.STATUS, R.string.not_played) == R.string.in_progress) {
             pref.edit().putInt(Game.STATUS, R.string.done).apply();
         }
-        pref.edit().putFloat(Game.SCORE, score).apply();
+        if (score > pref.getFloat(Game.SCORE, 0)) {
+            pref.edit().putFloat(Game.SCORE, score).apply();
+            Toast.makeText(context, context.getResources().getString(R.string.new_highscore),
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
 }
