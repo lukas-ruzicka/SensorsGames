@@ -2,6 +2,7 @@ package cz.ruzickalukas.sensorsgames.ball;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -9,6 +10,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Display;
@@ -16,9 +18,11 @@ import android.view.View;
 import android.hardware.SensorEventListener;
 
 import cz.ruzickalukas.sensorsgames.R;
+import cz.ruzickalukas.sensorsgames.main.GameStatus;
 
 public class BallView extends View implements SensorEventListener {
 
+    private Activity activity;
     private SensorManager mSensorManager;
     private Sensor accelerometer;
 
@@ -29,17 +33,15 @@ public class BallView extends View implements SensorEventListener {
     private float xSpeed, ySpeed;
     private static final float FRAME_TIME = 0.666f;
 
+    private long startTime;
+
     public BallView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
-        int ballSize = (int)context.getResources().getDimension(R.dimen.default_cell_size);
-        bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.ball), ballSize, ballSize, false);
-        xPos = ballSize / 2;
-        yPos = ballSize / 2;
     }
 
     void init(Activity activity) {
+        this.activity = activity;
+
         Display display = activity.getWindowManager().getDefaultDisplay();
 
         float cellWidth = (float)display.getWidth() / 14;
@@ -59,6 +61,8 @@ public class BallView extends View implements SensorEventListener {
         yPos = cellHeight / 2;
 
         invalidate();
+
+        startTime = System.currentTimeMillis();
     }
 
     void register() {
@@ -105,7 +109,42 @@ public class BallView extends View implements SensorEventListener {
                     break;
             }
         }
+
+        if (track.checkHole(xPos, yPos)) {
+            gameOver();
+        }
+
         invalidate();
+    }
+
+    private void gameOver() {
+        float time = (float)(System.currentTimeMillis() - startTime) / 1000.0f;
+        GameStatus.updateScore(activity, R.string.ball, time, true);
+
+        unregister();
+
+        final BallView ballView = this;
+        new AlertDialog.Builder(activity)
+                .setTitle(activity.getResources().getString(R.string.game_over_title))
+                .setMessage(String.format(activity.getResources()
+                        .getString(R.string.game_over_ball), time))
+                .setCancelable(false)
+                .setPositiveButton(activity.getResources().getString(R.string.play_again_button),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ballView.init(activity);
+                                register();
+                            }
+                        })
+                .setNegativeButton(activity.getResources().getString(R.string.go_back_button),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                activity.finish();
+                            }
+                        })
+                .show();
     }
 
     @Override

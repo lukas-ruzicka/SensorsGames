@@ -3,7 +3,9 @@ package cz.ruzickalukas.sensorsgames.treasure;
 import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -39,6 +41,7 @@ public class GameTreasureActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game_treasure);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         new AlertDialog.Builder(this)
                 .setTitle(getResources().getString(R.string.game_instructions_title))
@@ -80,6 +83,12 @@ public class GameTreasureActivity extends AppCompatActivity {
                 navigation.unregister();
             }
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
     }
 
     @Override
@@ -145,7 +154,7 @@ public class GameTreasureActivity extends AppCompatActivity {
 
         chest.setVisibility(View.VISIBLE);
 
-        GameStatus.updateScore(this, R.string.treasure, 0);
+        GameStatus.updateScore(this, R.string.treasure, 0, false);
 
         final Activity activity = this;
         chest.setOnClickListener(new View.OnClickListener() {

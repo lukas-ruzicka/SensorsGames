@@ -15,6 +15,7 @@ public class TrackView extends View {
 
     private boolean[][] barriersField = new boolean[14][25];
     private Bitmap barrier;
+    private Bitmap hole;
     private float cellWidth, cellHeight;
     private float xMax, yMax;
 
@@ -24,19 +25,6 @@ public class TrackView extends View {
 
     public TrackView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        int cellSize = (int)context.getResources().getDimension(R.dimen.default_cell_size);
-        barrier = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
-                R.drawable.barrier), cellSize, cellSize, false);
-        initBarriers();
-    }
-
-    private void initBarriers() {
-        for (int i = 2; i < 24; i++) {
-            barriersField[7][i] = true;
-        }
-        barriersField[5][10] = true;
-        barriersField[6][10] = true;
-        invalidate();
     }
 
     void init(Activity activity, float cellWidth, float cellHeight, float xMax, float yMax) {
@@ -47,8 +35,27 @@ public class TrackView extends View {
 
         barrier = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(),
                 R.drawable.barrier), (int)cellWidth, (int)cellHeight, false);
+        initBarriers();
+
+        hole = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(),
+                R.drawable.hole), (int)cellWidth, (int)cellHeight, false);
 
         invalidate();
+    }
+
+    private void initBarriers() {
+        // To be edited
+        for (int i = 2; i < 24; i++) {
+            barriersField[7][i] = true;
+        }
+        barriersField[5][10] = true;
+        barriersField[6][10] = true;
+    }
+
+
+    boolean checkHole(float x, float y) {
+        return ((int)((x + cellWidth) / cellWidth) == barriersField.length - 1)
+                && ((int)((y + cellHeight) / cellWidth) == barriersField[0].length - 1);
     }
 
     boolean checkBarrier(float x, float y) {
@@ -109,7 +116,7 @@ public class TrackView extends View {
             return 0;
         }
     }
-    
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -120,5 +127,7 @@ public class TrackView extends View {
                 }
             }
         }
+        canvas.drawBitmap(hole, (barriersField.length - 1) * cellWidth,
+                (barriersField[0].length - 1) * cellHeight, null);
     }
 }

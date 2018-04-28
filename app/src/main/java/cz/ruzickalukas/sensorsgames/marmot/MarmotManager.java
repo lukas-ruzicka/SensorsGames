@@ -84,7 +84,7 @@ class MarmotManager extends Handler {
         running = false;
         waiting = true;
 
-        GameStatus.updateScore(activity, R.string.marmot, score);
+        GameStatus.updateScore(activity, R.string.marmot, score, false);
 
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getResources().getString(R.string.game_over_title))

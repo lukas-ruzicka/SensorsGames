@@ -47,8 +47,6 @@ class GamesListAdapter extends BaseAdapter{
             } else {
                 return null;
             }
-        } else {
-            return null;
         }
 
         Game game = gamesList.get(position);

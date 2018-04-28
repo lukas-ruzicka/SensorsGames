@@ -15,12 +15,13 @@ public class GameStatus {
         }
     }
 
-    public static void updateScore(Context context, int gameId, float score){
+    public static void updateScore(Context context, int gameId, float score, boolean scoreIsTime){
         SharedPreferences pref = context.getSharedPreferences(String.valueOf(gameId),0);
         if (pref.getInt(Game.STATUS, R.string.not_played) == R.string.in_progress) {
             pref.edit().putInt(Game.STATUS, R.string.done).apply();
         }
-        if (score > pref.getFloat(Game.SCORE, 0)) {
+        float currentScore = pref.getFloat(Game.SCORE, 0);
+        if (score > currentScore || (scoreIsTime && score != 0 && score < currentScore)) {
             pref.edit().putFloat(Game.SCORE, score).apply();
             Toast.makeText(context, context.getResources().getString(R.string.new_highscore),
                     Toast.LENGTH_SHORT).show();

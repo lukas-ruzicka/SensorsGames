@@ -32,7 +32,6 @@ public class Navigation implements LocationListener {
         mLocationManager = (LocationManager)
                 currentActivity.getSystemService(Context.LOCATION_SERVICE);
         criteria.setCostAllowed(false);
-        //criteria.setPowerRequirement(Criteria.POWER_LOW);
 
         provider = mLocationManager.getBestProvider(criteria, true);
         currentLocation = mLocationManager.getLastKnownLocation(provider);

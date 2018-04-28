@@ -82,6 +82,8 @@
         tlačítko dole a začít se hýbat</string>
     <string name="game_over_treasure">Zlato, zlato a mnohem více zlata!! \nChceš najít další
         truhlu? Stačí se opět dostat na otevřený prostor a kliknout na tlačítko dole</string>
+    <string name="game_over_ball">Skvělá práce! Tvůj čas byl: %.1f s \nPokud chceš hrát znovu,
+        stačí kliknout na tlačítko dole</string>
     <string name="play_again_button">Hrát znovu</string>
     <string name="go_back_button">Návrat do menu</string>
 
