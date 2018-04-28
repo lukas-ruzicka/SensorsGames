@@ -1,12 +1,15 @@
 package cz.ruzickalukas.sensorsgames.treasure;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ public class Navigation implements LocationListener {
         mLocationManager = (LocationManager)
                 currentActivity.getSystemService(Context.LOCATION_SERVICE);
         criteria.setCostAllowed(false);
+        criteria.setPowerRequirement(Criteria.POWER_LOW);
 
         provider = mLocationManager.getBestProvider(criteria, true);
         currentLocation = mLocationManager.getLastKnownLocation(provider);
@@ -66,7 +70,7 @@ public class Navigation implements LocationListener {
 
     void register() {
         provider = mLocationManager.getBestProvider(criteria, true);
-        mLocationManager.requestLocationUpdates(provider,0,0,this);
+        mLocationManager.requestLocationUpdates(provider, 0, 0, this);
     }
 
     void unregister() {
@@ -75,14 +79,12 @@ public class Navigation implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        if (location.getAccuracy() < 5) {
-            currentLocation = location;
-            if (noDefaultLocation) {
-                noDefaultLocation = false;
-                initTargetLocations();
-            } else {
-                changeInstructions();
-            }
+        currentLocation = location;
+        if (noDefaultLocation) {
+            noDefaultLocation = false;
+            initTargetLocations();
+        } else {
+            changeInstructions();
         }
     }
 
