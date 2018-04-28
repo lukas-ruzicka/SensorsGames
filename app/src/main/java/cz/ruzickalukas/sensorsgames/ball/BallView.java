@@ -22,30 +22,42 @@ public class BallView extends View implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor accelerometer;
 
+    private TrackView track;
+
     private Bitmap bmp;
-    private int ballSize;
     private float xPos, yPos;
     private float xSpeed, ySpeed;
-    private float xMax, yMax;
     private static final float FRAME_TIME = 0.666f;
 
     public BallView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        ballSize = (int)context.getResources().getDimension(R.dimen.ball_size);
+
+        int ballSize = (int)context.getResources().getDimension(R.dimen.default_cell_size);
         bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(context.getResources(),
                 R.drawable.ball), ballSize, ballSize, false);
-        xPos = 10;
-        yPos = 10;
+        xPos = ballSize / 2;
+        yPos = ballSize / 2;
     }
 
     void init(Activity activity) {
+        Display display = activity.getWindowManager().getDefaultDisplay();
+
+        float cellWidth = (float)display.getWidth() / 14;
+        float cellHeight = (float)display.getHeight() / 25;
+
+        track = activity.findViewById(R.id.track);
+        track.init(activity, cellWidth, cellHeight, display.getWidth(), display.getHeight());
+
         mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {
             accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         }
-        Display display = activity.getWindowManager().getDefaultDisplay();
-        xMax = display.getWidth() - ballSize;
-        yMax = display.getHeight() - ballSize;
+
+        bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(),
+                R.drawable.ball), (int) cellWidth, (int) cellHeight, false);
+        xPos = cellWidth / 2;
+        yPos = cellHeight / 2;
+
         invalidate();
     }
 
@@ -69,30 +81,30 @@ public class BallView extends View implements SensorEventListener {
         xSpeed += x * FRAME_TIME;
         ySpeed += y * FRAME_TIME;
 
+        float lastX = xPos;
+        float lastY = yPos;
+
         xPos -= (xSpeed/2) * FRAME_TIME;
         yPos += (ySpeed/2) * FRAME_TIME;
 
-        // Barrier left
-        if (xPos < 0) {
-            xSpeed = 0;
-            xPos = 0;
+        if (track.checkBarrier(xPos, yPos)) {
+            switch (track.getBarrierDirection(xPos, yPos, lastX, lastY)) {
+                case TrackView.X_DIRECTION:
+                    xSpeed = 0;
+                    xPos = lastX;
+                    break;
+                case TrackView.Y_DIRECTION:
+                    ySpeed = 0;
+                    yPos = lastY;
+                    break;
+                case TrackView.BOTH_DIRECTIONS:
+                    xSpeed = 0;
+                    ySpeed = 0;
+                    xPos = lastX;
+                    yPos = lastY;
+                    break;
+            }
         }
-        // Barrier right
-        else if (xPos > xMax) {
-            xSpeed = 0;
-            xPos = xMax;
-        }
-        // Barrier up
-        if (yPos < 0) {
-            ySpeed = 0;
-            yPos = 0;
-        }
-        // Barrier down
-        else if (yPos > yMax) {
-            ySpeed = 0;
-            yPos = yMax;
-        }
-
         invalidate();
     }
 
