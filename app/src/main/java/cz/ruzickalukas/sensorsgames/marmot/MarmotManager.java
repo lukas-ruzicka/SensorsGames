@@ -89,7 +89,7 @@ class MarmotManager extends Handler {
         new AlertDialog.Builder(activity)
                 .setTitle(activity.getResources().getString(R.string.game_over_title))
                 .setMessage(String.format(activity.getResources()
-                        .getString(R.string.game_over_marmot),score))
+                        .getString(R.string.game_over_marmot), score))
                 .setCancelable(false)
                 .setPositiveButton(activity.getResources().getString(R.string.play_again_button),
                         new DialogInterface.OnClickListener() {
@@ -186,7 +186,7 @@ class MarmotManager extends Handler {
 
     private void checkTime() {
         if (System.currentTimeMillis() - lastStep > 3000) {
-            Toast.makeText(activity, "You can't stop during the game..",
+            Toast.makeText(activity, activity.getResources().getString(R.string.stop_during_game),
                     Toast.LENGTH_SHORT).show();
             endGame();
         }

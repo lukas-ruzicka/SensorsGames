@@ -53,8 +53,8 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         marmotManager.notWaitingAnymore();
-                        Toast.makeText(GameMarmotActivity.this,
-                                "You can start moving now", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(GameMarmotActivity.this, getResources()
+                                .getString(R.string.start_moving), Toast.LENGTH_SHORT).show();
                     }
                 })
                 .show();

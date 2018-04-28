@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hry se senzory</string>
+
+    <!-- Games -->
+    <string name="ball">Kulička v bludišti</string>
+    <string name="treasure">Najdi poklad</string>
+    <string name="marmot">Tref sviště</string>
+
+    <!-- Sensors -->
+    <string name="accelerometer">Akcelerometr</string>
+    <string name="magnetometer">Geomagnetické pole</string>
+    <string name="gps">GPS</string>
+    <string name="step_detector">Detektor kroků</string>
+
+    <!-- Game status -->
+    <string name="not_played">Nehraný</string>
+    <string name="in_progress">Rozehraný</string>
+    <string name="done">Dohraný</string>
+    <string name="new_highscore">Stanovil jsi nové nejvyšší skóre!</string>
+
+    <!-- MainActivity -->
+    <string name="not_available_intro">Některé hry nemůžeš hrát, jelikož nejsou dostupné
+        následující senzory:\ </string>
+    <string name="game_status_intro">Stav hry:\ </string>
+    <string name="highest_score_intro">Nejvyšší skóre:\ </string>
+    <string name="points">%.0f bodů</string>
+    <string name="seconds">%.1f s</string>
+    <string name="sensors">Senzory</string>
+
+    <!-- Exiting dialog -->
+    <string name="game_exit_title">Opravdu chceš ukončit hru?</string>
+    <string name="game_exit_message">Dosavadní průběh hry nebude uložen</string>
+
+
+    <!-- Treasure game -->
+    <string name="no_permission_gps">Tuto hru nelze hrát bez GPS..</string>
+    <string name="instructions_not_available">Bohužel nemůžeme získat tvoji pozici.
+        Dej nám minutku..</string>
+    <string name="instructions">Jdi %d metrů na %s</string>
+    <string name="target_achieved">Skvěle! Pokračuj dle instrukcí</string>
+    <string name="final_target_achieved">Dokázal jsi to, truhla je tvoje! Gratuluju!</string>
+    <string name="chest">Truhla</string>
+    <!-- Cardinal directions -->
+    <string name="north">sever</string>
+    <string name="north_east">severovýchod</string>
+    <string name="east">východ</string>
+    <string name="south_east">jihovýchod</string>
+    <string name="south">jih</string>
+    <string name="south_west">jihozápad</string>
+    <string name="west">západ</string>
+    <string name="north_west">severozápad</string>
+    <string name="no_direction">žádný směr..</string>
+
+
+    <!-- Marmot game -->
+    <string name="time_format_seconds">Zbývající čas: %d s</string>
+    <string name="time_format_tenths">Zbývající čas: %.1f s</string>
+    <string name="score">Skóre: %d</string>
+    <string name="start_moving">Můžeš se začít pohybovat</string>
+    <string name="game_start">Hra začala</string>
+    <string name="stop_during_game">Nemůžeš zastavit během hry</string>
+    
+
+    <!-- Games instructions -->
+    <string name="game_instructions_title">Instrukce ke hře</string>
+    <string name="treasure_instructions">Tato hra demostruje používání GPS a kombinace
+        akcelerometru a senzoru geomagnetického pole (pro kompas). Musíš se dostat na otevřený
+        prostor (alespoň 50 metrů do všech směrů). Jakmile se tam dostaneš, klikni na tlačítko
+        dole. \nDále jsou pravidla jednoduchá. Stačí se jen řídit instrukcemi pomocí kompasu a
+        najít poklad. Hodně štěstí!</string>
+    <string name="marmot_instructions">Tato hra demonstruje používání detektoru kroků. Hru je možné
+        hrát pouze pokud se hýbeš, respektive chodíš/běháš (kontrolováno pomocí detektoru kroků).
+        Jakmile bude detekován první krok (to může chvilku trvat), začnou se objevovat svišti. Poté
+        máš 60 sekund na to trefit co nejvíce švišťů. Také dostaneš bonusový bod za každý krok,
+        který v průběhu hry uděláš. Hodně štěstí!</string>
+
+    <!-- Game over dialog -->
+    <string name="game_over_title">Konec hry</string>
+    <string name="game_over_marmot">Tvé skóre: %d \nPokud chceš hrát znovu, stačí kliknout na
+        tlačítko dole a začít se hýbat</string>
+    <string name="game_over_treasure">Zlato, zlato a mnohem více zlata!! \nChceš najít další
+        truhlu? Stačí se opět dostat na otevřený prostor a kliknout na tlačítko dole</string>
+    <string name="play_again_button">Hrát znovu</string>
+    <string name="go_back_button">Návrat do menu</string>
+
+
+
+
+
+    <!-- Calibration -->
+    <string name="calibration_title">Potřebujeme zkalibrovat tvoje zařízení</string>
+    <string name="calibration_message">Polož telefon na rovnou plochu. Jakmile to uděláš,
+        klikni na tlačítko "Kalibrovat"</string>
+    <string name="calibration_button">Kalibrovat</string>
+
+</resources>
