@@ -1,17 +1,16 @@
 package cz.ruzickalukas.sensorsgames.treasure;
 
-import android.Manifest;
 import android.content.Context;
-import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.location.LocationProvider;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.util.Random;
 
 import cz.ruzickalukas.sensorsgames.R;
 
@@ -35,7 +34,6 @@ public class Navigation implements LocationListener {
         mLocationManager = (LocationManager)
                 currentActivity.getSystemService(Context.LOCATION_SERVICE);
         criteria.setCostAllowed(false);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
 
         provider = mLocationManager.getBestProvider(criteria, true);
         currentLocation = mLocationManager.getLastKnownLocation(provider);
@@ -49,16 +47,18 @@ public class Navigation implements LocationListener {
     }
 
     private void initTargetLocations() {
+        Random rand = new Random();
+
         Location target1 = new Location("");
-        target1.setLatitude(currentLocation.getLatitude() + 0.0004d);
-        target1.setLongitude(currentLocation.getLongitude() + (0.0004d
+        target1.setLatitude(currentLocation.getLatitude() + rand.nextInt(5) / 10000d);
+        target1.setLongitude(currentLocation.getLongitude() + (rand.nextInt(5) / 10000d
                 * Math.cos(currentLocation.getLatitude())));
         Location target2 = new Location("");
-        target2.setLatitude(currentLocation.getLatitude() + 0.0002d);
-        target2.setLongitude(currentLocation.getLongitude() - 0.0003d
+        target2.setLatitude(currentLocation.getLatitude() + rand.nextInt(5) / 10000d);
+        target2.setLongitude(currentLocation.getLongitude() - rand.nextInt(5) / 10000d
                 * Math.cos(currentLocation.getLatitude()));
         Location target3 = new Location("");
-        target3.setLatitude(currentLocation.getLatitude() + 0.0002d);
+        target3.setLatitude(currentLocation.getLatitude() + rand.nextInt(5) / 10000d);
         target3.setLongitude(currentLocation.getLongitude());
 
         targetLocations[0] = target1;

@@ -24,7 +24,6 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
 
     private SensorManager mSensorManager;
     private Sensor stepDetector;
-    private Sensor stepCounter;
 
     private MarmotManager marmotManager;
 
@@ -39,7 +38,8 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
         mSensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         if (mSensorManager != null) {
             stepDetector = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR);
-            stepCounter = mSensorManager.getDefaultSensor(Sensor.TYPE_STEP_COUNTER);
+        } else {
+            this.finish();
         }
 
         FrameLayout gameLayout = findViewById(R.id.gameMarmotLayout);
@@ -67,8 +67,6 @@ public class GameMarmotActivity extends AppCompatActivity implements SensorEvent
     protected void onResume() {
         super.onResume();
         mSensorManager.registerListener(this, stepDetector,
-                SensorManager.SENSOR_DELAY_NORMAL);
-        mSensorManager.registerListener(this, stepCounter,
                 SensorManager.SENSOR_DELAY_NORMAL);
     }
 

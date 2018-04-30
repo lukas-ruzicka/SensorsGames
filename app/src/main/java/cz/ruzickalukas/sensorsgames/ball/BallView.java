@@ -53,6 +53,8 @@ public class BallView extends View implements SensorEventListener {
         mSensorManager = (SensorManager) activity.getSystemService(Context.SENSOR_SERVICE);
         if (mSensorManager != null) {
             accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        } else {
+            activity.finish();
         }
 
         bmp = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(activity.getResources(),
